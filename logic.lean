@@ -513,36 +513,63 @@ by
 theorem exists_as_neg_forall :
   (∃x, P x) → ¬(∀x, ¬P x)  :=
 by
-  intro h1 h2
-  cases h1 with
-  | intro x hx => have px : ¬P x := h2 x; contradiction
-
+  intro h
+  intro hp
+  apply Exists.elim h
+  intro x
+  intro px
+  have npx: ¬P x := hp x
+  contradiction
 
 theorem forall_as_neg_exists :
   (∀x, P x) → ¬(∃x, ¬P x)  :=
 by
-  sorry
+  intro h
+  intro hp
+  apply Exists.elim hp
+  intro x
+  intro npx
+  have px: P x := h x
+  contradiction
 
 theorem forall_as_neg_exists_converse :
   ¬(∃x, ¬P x) → (∀x, P x)  :=
 by
-  sorry
+  intro h
+  intro x
+  by_cases px: P x
+  assumption
+  suffices hp: (∃x, ¬P x) from False.elim (h hp)
+  apply Exists.intro x
+  assumption
 
 theorem exists_as_neg_forall_converse :
   ¬(∀x, ¬P x) → (∃x, P x)  :=
 by
-  sorry
+  intro h
+  apply Classical.byContradiction
+  intro hp
+  apply h
+  intro x
+  intro px
+  apply hp
+  apply Exists.intro x
+  assumption
 
 
 theorem forall_as_neg_exists_law :
   (∀x, P x) ↔ ¬(∃x, ¬P x)  :=
 by
-  sorry
+  apply Iff.intro
+  exact forall_as_neg_exists U P
+  exact forall_as_neg_exists_converse U P
 
 theorem exists_as_neg_forall_law :
   (∃x, P x) ↔ ¬(∀x, ¬P x)  :=
 by
-  sorry
+  apply Iff.intro
+  exact exists_as_neg_forall U P
+  exact exists_as_neg_forall_converse U P
 
 
 ------------------------------------------------
