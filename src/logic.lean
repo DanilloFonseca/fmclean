@@ -146,8 +146,8 @@ by
   ((P → Q) → P) → P  :=
 by
   intro pqp
-  have peirceLaw: (((P → Q) → P) → ¬¬P) := peirce_law_weak P Q
-  have nnp: ¬¬P := peirceLaw pqp
+  have peirceLawWeak: (((P → Q) → P) → ¬¬P) := peirce_law_weak P Q
+  have nnp: ¬¬P := peirceLawWeak pqp
   apply Classical.byContradiction
   intro np
   contradiction
